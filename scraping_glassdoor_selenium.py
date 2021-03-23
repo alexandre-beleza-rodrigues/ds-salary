@@ -3,7 +3,7 @@ from selenium import webdriver
 import time
 import pandas as pd
 
-from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
+from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, StaleElementReferenceException
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
@@ -82,9 +82,13 @@ def get_jobs(keyword, location, num_jobs, verbose, path, slp_time):
             if len(jobs) >= num_jobs:
                 break
 
-            driver.execute_script("arguments[0].click();", job_button)  # You might
-            time.sleep(1)
-            collected_successfully = False
+            try:
+                driver.execute_script("arguments[0].click();", job_button)  # You might
+                time.sleep(1)
+                collected_successfully = False
+            except StaleElementReferenceException:
+                print("didn't click the button")
+                continue
 
             while not collected_successfully:
                 try:
@@ -101,7 +105,7 @@ def get_jobs(keyword, location, num_jobs, verbose, path, slp_time):
             try:
                 salary_estimate = driver.find_element_by_xpath('//*[@id="JDCol"]/div/article/div/div[1]/div/div/div[1]/div[3]/div[1]/div[4]/span').text
 
-            except NoSuchElementException:
+            except (NoSuchElementException, StaleElementReferenceException):
                 salary_estimate = -1  # You need to set a "not found value. It's important."
 
             #try:
@@ -162,8 +166,8 @@ def get_jobs(keyword, location, num_jobs, verbose, path, slp_time):
                     revenue = -1
 
 
-            except NoSuchElementException:  # Rarely, some job postings do not have the "Company" tab.
-                print("didn't click")
+            except (NoSuchElementException, ElementClickInterceptedException, StaleElementReferenceException):  # Some job postings do not have the "Company" tab.
+                print("didn't click in 'Company'")
                 size = -1
                 founded = -1
                 type_of_ownership = -1
@@ -196,7 +200,7 @@ def get_jobs(keyword, location, num_jobs, verbose, path, slp_time):
 
         # Clicking on the "next page" button
         try:
-            driver.find_element_by_xpath('.//li[@class="next"]//a').click()
+            driver.find_element_by_xpath('//*[@id="FooterPageNav"]/div/ul/li[7]/a/span').click()
         except NoSuchElementException:
             print("Scraping terminated before reaching target number of jobs. Needed {}, got {}.".format(num_jobs,
                                                                                                          len(jobs)))
