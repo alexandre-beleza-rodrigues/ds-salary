@@ -1,6 +1,6 @@
 # Data Science Salary Estimator: Project Overview 
-* Created a tool that estimates data science salaries (MAE ~ $ 11K) to help data scientists negotiate their income when they get a job.
-* Scraped over 1000 job descriptions from glassdoor using python and selenium
+* Created a tool that estimates data science salaries (MAE ~ $ 14K) to help data scientists negotiate their income when they get a job.
+* Scraped over 800 job descriptions from glassdoor using python and selenium
 * Engineered features from the text of each job description to quantify the value companies put on python, excel, aws, and spark. 
 * Optimized Linear, Lasso, and Random Forest Regressors using GridsearchCV to reach the best model. 
 * Built a client facing API using flask 
@@ -9,29 +9,22 @@
 **Python Version:** 3.7  
 **Packages:** pandas, numpy, sklearn, matplotlib, seaborn, selenium, flask, json, pickle  
 **For Web Framework Requirements:**  ```pip install -r requirements.txt```  
-**Scraper Github:** https://github.com/arapfaik/scraping-glassdoor-selenium  
-**Scraper Article:** https://towardsdatascience.com/selenium-tutorial-scraping-glassdoor-com-in-10-minutes-3d0915c6d905  
 **Flask Productionization:** https://towardsdatascience.com/productionize-a-machine-learning-model-with-flask-and-heroku-8201260503d2
 
-## YouTube Project Walk-Through
-https://www.youtube.com/playlist?list=PL2zq7klxX5ASFejJj80ob9ZAnBHdz5O1t
-
 ## Web Scraping
-Tweaked the web scraper github repo (above) to scrape 1000 job postings from glassdoor.com. With each job, we got the following:
+Scraped 800 job postings from glassdoor.com. With each job, we got the following:
 *	Job title
 *	Salary Estimate
 *	Job Description
 *	Rating
 *	Company 
 *	Location
-*	Company Headquarters 
 *	Company Size
 *	Company Founded Date
 *	Type of Ownership 
 *	Industry
 *	Sector
 *	Revenue
-*	Competitors 
 
 ## Data Cleaning
 After scraping the data, I needed to clean it up so that it was usable for our model. I made the following changes and created the following variables:
@@ -41,7 +34,6 @@ After scraping the data, I needed to clean it up so that it was usable for our m
 *	Removed rows without salary 
 *	Parsed rating out of company text 
 *	Made a new column for company state 
-*	Added a column for if the job was at the company’s headquarters 
 *	Transformed founded date into age of company 
 *	Made columns for if different skills were listed in the job description:
     * Python  
@@ -53,11 +45,7 @@ After scraping the data, I needed to clean it up so that it was usable for our m
 *	Column for description length 
 
 ## EDA
-I looked at the distributions of the data and the value counts for the various categorical variables. Below are a few highlights from the pivot tables. 
-
-![](https://github.com/o-alexandre-rodrigues/ds_salary_proj/blob/master/images/avg_sal.png "Salary by Position")
-![](https://github.com/o-alexandre-rodrigues/ds_salary_proj/blob/master/loc.png "Job Opportunities by State")
-![](https://github.com/o-alexandre-rodrigues/ds_salary_proj/blob/master/corr.png "Correlations")
+I looked at the distributions of the data and the value counts for the various categorical variables.
 
 ## Model Building 
 
@@ -72,9 +60,7 @@ I tried three different models:
 
 ## Model performance
 The Random Forest model far outperformed the other approaches on the test and validation sets. 
-*	**Random Forest** : MAE = 11.22
-*	**Linear Regression**: MAE = 18.86
-*	**Ridge Regression**: MAE = 19.67
+*	**Random Forest** : MAE ~ 14
 
 ## Productionization 
 In this step, I built a flask API endpoint that was hosted on a local webserver by following along with the TDS tutorial in the reference section above. The API endpoint takes in a request with a list of values from a job listing and returns an estimated salary. 
