@@ -55,7 +55,7 @@ After scraping the data, I needed to clean it up so that it was usable for our m
 ## EDA
 I looked at the distributions of the data and the value counts for the various categorical variables. Below are a few highlights from the pivot tables. 
 
-![alt text](https://github.com/o-alexandre-rodrigues/ds_salary_proj/blob/master/avg_sal.png "Salary by Position")
+![alt text](https://github.com/o-alexandre-rodrigues/ds_salary_proj/images/blob/master/avg_sal.png "Salary by Position")
 ![alt text](https://github.com/o-alexandre-rodrigues/ds_salary_proj/blob/master/loc.png "Job Opportunities by State")
 ![alt text](https://github.com/o-alexandre-rodrigues/ds_salary_proj/blob/master/corr.png "Correlations")
 
