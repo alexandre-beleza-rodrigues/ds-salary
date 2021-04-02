@@ -1,8 +1,3 @@
-from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
-from selenium import webdriver
-import time
-import pandas as pd
-
 from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException, StaleElementReferenceException
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
